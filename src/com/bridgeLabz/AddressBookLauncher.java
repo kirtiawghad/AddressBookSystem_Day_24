@@ -13,7 +13,8 @@ public class AddressBookLauncher {
         {
             System.out.println("-----------------------------");
             System.out.println("1.create a new contact");
-            System.out.println("2.exit");
+            System.out.println("2.fill contact details");
+            System.out.println("3.exit");
             System.out.print("enter option:");
             int option = scanner.nextInt();
             switch (option)
@@ -22,6 +23,9 @@ public class AddressBookLauncher {
                     addressBook.createNewContact();
                     break;
                 case 2:
+                    addressBook.fillContactDetails();
+                    break;
+                case 3:
                     System.out.println("exiting....");
                     System.exit(0);
                 default:
