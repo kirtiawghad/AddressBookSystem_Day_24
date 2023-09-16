@@ -7,6 +7,8 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class AddressBook {
+
+    // class variable
     static final Scanner scanner = new Scanner(System.in);
     static Set<String> emptyContacts = new HashSet<>();
     static Set<String> nonEmptyContacts = new HashSet<>();
@@ -179,5 +181,34 @@ public class AddressBook {
         }
 
     }
+    void deleteContact()
+    {
+        System.out.print("enter contact name to delete:");
+        String contactName = scanner.nextLine().trim();
+        File file = new File(contactName);
+        if(file.exists())
+        {
+            if(file.delete())
+            {
+                if(emptyContacts.contains(contactName))
+                {
+                    emptyContacts.remove(contactName);
+                }
+                else
+                {
+                    nonEmptyContacts.remove(contactName);
+                }
+                System.out.println(contactName + " is deleted succesfully");
+            }
+            else
+            {
+                System.out.println("file deletion failed");
+            }
 
+        }
+        else
+        {
+            System.out.println(contactName + "doesn't exists");
+        }
+    }
 }

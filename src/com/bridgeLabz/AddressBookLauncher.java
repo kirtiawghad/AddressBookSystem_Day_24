@@ -17,7 +17,8 @@ public class AddressBookLauncher {
             System.out.println("3.display all contacts");
             System.out.println("4.view contact information");
             System.out.println("5.edit contact information");
-            System.out.println("6.exit");
+            System.out.println("6.delete contact information");
+            System.out.println("7.exit");
             System.out.print("enter option:");
             String option = scanner.nextLine().trim();
             switch (option)
@@ -38,6 +39,9 @@ public class AddressBookLauncher {
                     addressBook.editContactInfo();
                     break;
                 case "6":
+                    addressBook.deleteContact();
+                    break;
+                case "7":
                     System.out.println("exiting....");
                     System.exit(0);
                 default:
