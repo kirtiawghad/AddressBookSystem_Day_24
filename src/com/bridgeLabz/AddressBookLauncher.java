@@ -3,19 +3,24 @@ package com.bridgeLabz;
 import java.util.Scanner;
 
 public class AddressBookLauncher {
+
     static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception
+    {
         AddressBook addressBook = new AddressBook();
-        while (true) {
+        while (true)
+        {
             System.out.println("-----------------------------");
             System.out.println("1.create a new contact");
             System.out.println("2.fill contact details");
             System.out.println("3.display all contacts");
-            System.out.println("4.exit");
+            System.out.println("4.view contact information");
+            System.out.println("5.exit");
             System.out.print("enter option:");
             int option = scanner.nextInt();
-            switch (option) {
+            switch (option)
+            {
                 case 1:
                     addressBook.createNewContact();
                     break;
@@ -26,6 +31,9 @@ public class AddressBookLauncher {
                     addressBook.display();
                     break;
                 case 4:
+                    addressBook.viewContactInfo();
+                    break;
+                case 5:
                     System.out.println("exiting....");
                     System.exit(0);
                 default:
@@ -35,4 +43,6 @@ public class AddressBookLauncher {
 
         }
 
-    }}
+    }
+
+    }

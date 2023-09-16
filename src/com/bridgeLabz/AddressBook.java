@@ -1,5 +1,6 @@
 package com.bridgeLabz;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -74,6 +75,7 @@ public class AddressBook {
     void display()
     {
 
+        boolean flag = false;
         if (emptyContacts.size() != 0)
         {
             System.out.println("the empty contacts are:");
@@ -81,19 +83,45 @@ public class AddressBook {
             {
                 System.out.println(contact);
             }
+            flag=true;
 
-        } else if (nonEmptyContacts.size() != 0)
+        }
+        if (nonEmptyContacts.size() != 0)
         {
             System.out.println("the non empty contacts are:");
             for (String contact : nonEmptyContacts)
             {
                 System.out.println(contact);
             }
+            flag=true;
         }
-        else
+        if(!flag)
         {
             System.out.println("no contacts are created yet");
         }
 
+    }
+    void viewContactInfo()throws Exception
+    {
+        System.out.print("enter name of the contact to view:");
+        String contactName = scanner.nextLine();
+        if(emptyContacts.contains(contactName))
+        {
+            System.out.println("pleast fill the contact "+ contactName+ " before viewing it");
+            return;
+        }
+        else if(!nonEmptyContacts.contains(contactName))
+        {
+            System.out.println("please create the contact "+contactName+" before viewing it");
+            return;
+        }
+        System.out.println("the content of "+ contactName + " is:");
+        FileReader fileReader = new FileReader(contactName);
+        int character;
+        while ((character = fileReader.read()) != -1)
+        {
+            System.out.print((char) character);
+        }
+        fileReader.close();
     }
 }
