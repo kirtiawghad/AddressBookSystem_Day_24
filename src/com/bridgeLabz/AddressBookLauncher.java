@@ -11,38 +11,38 @@ public class AddressBookLauncher {
         AddressBook addressBook = new AddressBook();
         while (true)
         {
-            System.out.println("-----------------------------");
-            System.out.println("1.create a new contact");
-            System.out.println("2.fill contact details");
-            System.out.println("3.display all contacts");
-            System.out.println("4.view contact information");
-            System.out.println("5.edit contact information");
-            System.out.println("6.delete contact information");
-            System.out.println("7.exit");
+            System.out.println("--------------ENTER-------------");
+            System.out.println("c for creating a new contact");
+            System.out.println("f for filling contact details");
+            System.out.println("p for printing all contacts");
+            System.out.println("v for viewing  contact information");
+            System.out.println("e for editing contact information");
+            System.out.println("d for deleting contact information");
+            System.out.println("q for quitting");
             System.out.print("enter option:");
-            String option = scanner.nextLine().trim();
+            String option = scanner.nextLine().trim().toLowerCase();
             switch (option)
             {
-                case "1":
+                case "c":
                     addressBook.createNewContact();
                     break;
-                case "2":
+                case "f":
                     addressBook.fillContactDetails();
                     break;
-                case "3":
+                case "p":
                     addressBook.displayAllContacts();
                     break;
-                case "4":
+                case "v":
                     addressBook.viewContactInfo();
                     break;
-                case "5":
+                case "e":
                     addressBook.editContactInfo();
                     break;
-                case "6":
+                case "d":
                     addressBook.deleteContact();
                     break;
-                case "7":
-                    System.out.println("exiting....");
+                case "q":
+                    System.out.println("quiting....!");
                     System.exit(0);
                 default:
                     System.out.println("please enter the correct choice");

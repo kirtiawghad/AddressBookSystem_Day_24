@@ -4,15 +4,29 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class AddressBook {
 
     // class variable
+    //patterns for differnt fields
+    static String firstNamePattern = "^[a-zA-Z][a-zA-Z ]*$";
+    static String lastNamePattern = "^[a-zA-Z][a-zA-Z ]*$";
+    static String addressPattern = "^[a-zA-Z0-9-,. ]+$";
+    static String cityPattern = "^[a-zA-Z][a-zA-Z ]*$";
+    static String statePattern = "^[a-zA-Z][a-zA-Z ]*$";
+    static String zipPattern = "^\\d{6}$";
+    static String phoneNumberPattern = "^\\d{10}$";
+
+    //scanner variable is declared as static to use throughout the program
     static final Scanner scanner = new Scanner(System.in);
+    //contains set of contacts which are empty(contact created and no details added)
     static Set<String> emptyContacts = new HashSet<>();
+    //contains set of contacts which are non empty(contact created and details added)
     static Set<String> nonEmptyContacts = new HashSet<>();
 
-    // instance method
+    // instance methods
+    //creates empty contact
     void createNewContact() throws Exception
     {
         System.out.print("Enter name of the contact:");
@@ -36,6 +50,7 @@ public class AddressBook {
         }
 
     }
+    //writes given content into given file
     void writeFile(String fileName,String content)throws Exception
     {
         FileWriter fw = new FileWriter(fileName);
@@ -43,6 +58,24 @@ public class AddressBook {
         fw.close();
         nonEmptyContacts.add(fileName);
     }
+
+    Boolean validate(String name, String regex)
+    {
+        return Pattern.matches(regex, name);
+    }
+
+    String takeInput(String field, String pattern)
+    {
+        String input;
+        do
+        {
+            System.out.print("enter " + field + ":");
+            input = scanner.nextLine();
+        } while (!validate(input, pattern));
+        return input;
+    }
+
+    //given fields are added into contact
     void fillContactDetails()throws Exception
     {
         System.out.print("enter empty contact name which is going to be filed:");
@@ -50,32 +83,25 @@ public class AddressBook {
         if (emptyContacts.contains(contactName))
         {
             String details = "";
-            System.out.print("enter first name:");
-            details += scanner.nextLine() + "\n";
-            System.out.print("enter last name:");
-            details += scanner.nextLine() + "\n";
-            System.out.print("enter address:");
-            details += scanner.nextLine() + "\n";
-            System.out.print("enter city:");
-            details += scanner.nextLine() + "\n";
-            System.out.print("enter state:");
-            details += scanner.nextLine() + "\n";
-            System.out.print("enter zip:");
-            details += scanner.nextLine() + "\n";
-            System.out.print("enter phone number:");
-            details += scanner.nextLine() + "\n";
+            details += takeInput("first name", firstNamePattern) + "\n";
+            details += takeInput("last name", lastNamePattern) + "\n";
+            details += takeInput("address", addressPattern) + "\n";
+            details += takeInput("city", cityPattern) + "\n";
+            details += takeInput("state", statePattern) + "\n";
+            details += takeInput("zip code", zipPattern) + "\n";
+            details += takeInput("phone number", phoneNumberPattern) + "\n";
             writeFile(contactName, details);
             emptyContacts.remove(contactName);
-            System.out.println("the given contents are successfully added in " + contactName);
+            System.out.println("the given fields are successfully added in " + contactName);
         }
         else
         {
             System.out.println(contactName + " is not empty contact or it is not created");
-            System.out.println("use other option 1 to create new contact or option 5 to edit already created one");
+            System.out.println("use other option c to create new contact or option e to edit already created one");
         }
 
     }
-
+    //displays list of empty contacts and non empty contacts
     void displayAllContacts()
     {
         boolean flag = false;
@@ -103,6 +129,7 @@ public class AddressBook {
         }
 
     }
+    //prints the given file content
     void readFile(String fileName)throws Exception
     {
         FileReader fileReader = new FileReader(fileName);
@@ -113,6 +140,7 @@ public class AddressBook {
         }
         fileReader.close();
     }
+    //displays all fields in the given contact
     void viewContactInfo()throws Exception
     {
         System.out.print("enter name of the contact to view:");
@@ -134,18 +162,24 @@ public class AddressBook {
     {
         System.out.print("enter name of the contact to edit:");
         String contactName = scanner.nextLine();
+        //if given file is empty
         if(emptyContacts.contains(contactName))
         {
+            System.out.println(contactName + " is empty!");
             System.out.println("pleast fill the contact "+ contactName + " before editing it");
             return;
         }
+        //if given file is non empty
         else if(!nonEmptyContacts.contains(contactName))
         {
+            System.out.println(contactName + " does not exits!");
             System.out.println("please create the contact "+ contactName +" before editing it");
             return;
         }
         System.out.println("The content of " + contactName + " at present is:");
+        //array to store lines in a file
         ArrayList<String> arrayList = new ArrayList<>();
+        //each line is printed and added to the array list
         try (BufferedReader reader = new BufferedReader(new FileReader(contactName)))
         {
             while (reader.ready())
@@ -170,35 +204,43 @@ public class AddressBook {
         System.out.print("enter field to edit:");
         String choice = scanner.nextLine().trim().toLowerCase();
         int field = 0;
+        String pattern;
         switch (choice)
         {
             case "f":
                 field = 0;
+                pattern = firstNamePattern;
                 break;
             case "l":
                 field = 1;
+                pattern = lastNamePattern;
                 break;
             case "a":
                 field = 2;
+                pattern = addressPattern;
                 break;
             case "c":
                 field = 3;
+                pattern = cityPattern;
                 break;
             case "s":
                 field = 4;
+                pattern = statePattern;
                 break;
             case "z":
                 field = 4;
+                pattern = zipPattern;
                 break;
             case "p":
                 field = 6;
+                pattern = phoneNumberPattern;
                 break;
             default:
                 System.out.println("please enter field correctly");
+                pattern = "";
                 break;
         }
-        System.out.print("enter new data of the field:");
-        String newData = scanner.nextLine();
+        String newData = takeInput("new data of the field", pattern);
         String newContent = "";
         for (int i = 0; i < arrayList.size(); i++)
         {
