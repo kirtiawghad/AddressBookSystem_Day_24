@@ -40,6 +40,8 @@ public class AddressBook {
         FileWriter fw = new FileWriter(fileName);
         fw.write(content);
         fw.close();
+        nonEmptyContacts.add(fileName);
+        System.out.println("the given contents are successfully added in " + fileName);
     }
     void fillContactDetails()throws Exception
     {
@@ -64,7 +66,6 @@ public class AddressBook {
             details += scanner.nextLine() + "\n";
             writeFile(contactName, details);
             emptyContacts.remove(contactName);
-            nonEmptyContacts.add(contactName);
         }
         else
         {
@@ -76,7 +77,6 @@ public class AddressBook {
 
     void displayAllContacts()
     {
-
         boolean flag = false;
         if (emptyContacts.size() != 0)
         {
@@ -154,18 +154,24 @@ public class AddressBook {
         String option;
         do
         {
-            System.out.println("enter... S for SAVE        C for CANCEL");
-            option = scanner.nextLine();
-        } while (!(option.equalsIgnoreCase("s")  || option.equalsIgnoreCase("c")));
+            System.out.println("enter... S for SAVE     SA for SAVE AS      C for CANCEL");
+            option = scanner.nextLine().trim().toLowerCase();
+        } while (!(option.equals("s")  || option.equals("sa")) || option.equals("c"));
         switch(option)
         {
+            //the new contents are saved as givenfilename
             case "s":
-            case "S":
                 writeFile(contactName, newContent);
                 System.out.println(contactName + " is saved with new content");
                 break;
+            //the new contents are saved as givenfilenamewithoutextension.csv
+            case "sa":
+                String extension = ".csv";
+                String newContactName = contactName.replaceFirst("[.][^.]+$", "") + extension;
+                writeFile(newContactName, newContent);
+                nonEmptyContacts.add(newContactName);
+                break;
             case "c":
-            case "C":
                 System.out.println("changes are not saved");
                 return;
             default:
