@@ -6,9 +6,9 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class AddressBook {
-    // class variable
     static final Scanner scanner = new Scanner(System.in);
     static Set<String> emptyContacts = new HashSet<>();
+    static Set<String> nonEmptyContacts = new HashSet<>();
 
     // instance method
     void createNewContact() throws Exception
@@ -29,7 +29,6 @@ public class AddressBook {
             }
             else
             {
-
                 System.out.println("file creation failed!");
             }
         }
@@ -60,12 +59,40 @@ public class AddressBook {
             System.out.print("enter phone number:");
             details += scanner.nextLine() + "\n";
             fw.write(details);
+            emptyContacts.remove(contactName);
+            nonEmptyContacts.add(contactName);
             fw.close();
         }
         else
         {
             System.out.println(contactName + " is not empty contact or it is not created");
             System.out.println("use other option 1 to create new contact");
+        }
+
+    }
+
+    void display()
+    {
+
+        if (emptyContacts.size() != 0)
+        {
+            System.out.println("the empty contacts are:");
+            for (String contact : emptyContacts)
+            {
+                System.out.println(contact);
+            }
+
+        } else if (nonEmptyContacts.size() != 0)
+        {
+            System.out.println("the non empty contacts are:");
+            for (String contact : nonEmptyContacts)
+            {
+                System.out.println(contact);
+            }
+        }
+        else
+        {
+            System.out.println("no contacts are created yet");
         }
 
     }
